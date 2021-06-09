@@ -1,0 +1,450 @@
+# js高级阶段晨读资料
+
+## 1、不定宽高的div水平垂直居中
+
+```
+答: 1、使用定位和translate来实现
+		div{
+			position:absolute;
+			top: 50%;
+             left: 50%;
+             transform: translate(-50%, -50%);
+		}
+	2、使用flex来实现
+        div {
+           display: flex;
+           justify-content:center; //子元素水平居中
+           align-items:center; //子元素垂直居中
+         }
+      
+    3、使用定位和margin来实现
+        #box {
+            width: 100px;
+            height: 100px;
+            position: relative;
+        }
+
+        #content {
+            width: 50px;
+            height: 50px;
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            margin: auto;
+        }
+```
+
+## 2、css写一个三角形
+
+```
+答: div {
+      width: 0;
+      height: 0;
+      border: 20px solid transparent;
+      border-width: 40px 20px 0 0;
+      border-right-color: #f99;
+    }
+```
+
+## 3、rem布局的原理
+
+```
+答:rem是css的相对单位，rem缩放是相对根元素字体大小.
+   rem布局的本质是等比缩放，一般是基于宽度。
+   rem会配合媒体查询（或js动态获取屏幕宽度）来一起使用，来实现屏幕的适配。
+```
+
+## 4、什么是重绘和重排
+
+```
+答:
+	重排: 当DOM元素影响了元素的几何属性（例如宽和高），浏览器需要重新计算元素的几何属性，同样其它元素的几何属性也会和位置也会因此受到影响。浏览器会使渲染树中受到影响的部分失效，并重新构造渲染树。这个过程称为“重排”。
+	重绘: 完成重排后，浏览器会重新绘制受影响的部分到屏幕上中，该过程称为“重绘”。
+	
+	当我们改变DOM的大小，增加删除都会导致重排，当给DOM元素改变颜色的时候，会导致重绘，重排一定会重绘，重绘不会重排。重排会影响性能，所以我们尽快能的减少重排的操作
+```
+
+## 5、flex常用的容器属性
+
+```
+答:
+1. flex-direction: 设置容器中的主轴方向
+2. flex-wrap: 项目在主轴方向上是否换行显示
+3. justify-content: 设置容器中的项目在主轴上的对齐方式
+4. align-items: 单行项目在侧轴上的排列方式
+5. align-content: 多行项目侧轴上的对齐方式
+6. flex-flow: 是flex-direction和flex-wrap的合写, 默认值为row nowrap
+```
+
+## 6、H5新增了那些特性
+
+```
+答: 
+1. 语义化标签: header nav section article aside footer
+2. 多媒体标签: video audio
+3. 表单控件: number search email tel date file time  url
+4. 本地离线存储 localStorage 长期存储数据,改变浏览器数据不会丢失
+			  sessionStorage 浏览器关闭数据会丢失
+5. 自定义属性 data-*
+6. 画布 Canvas
+7. 拖拽释放
+8. 新的技术web worker（就是为 JavaScript 创造多线程环境）
+9. 地理位置 (Geolocation) API
+```
+
+##7、localStorage、sessionStorage和cookie的区别
+
+```js
+答: 共同点: 都是保存在浏览器端，且同源的。
+	区别: 
+	1. 请求不同: 
+		cookie 数据始终在同源的http请求中携带（即使不需要），即cookie在浏览器和服务器间来回传递。
+				sessionStorage 和 localStorage不会自动把数据发给服务器，仅在本地保存。
+	2. 存储大小限制也不同: 
+		cookie 数据不能超过4k，同时因为每次http请求都会携带cookie，所以cookie只适合保存很小的数据，如会话标识。
+		sessionStorage 和 localStorage虽然也有存储大小的限制，但比cookie大得多，sessionStorage约5M、localStorage约5M 。
+	3. 数据有效期不同: 
+		 sessionStorage：仅在当前浏览器窗口关闭前有效，自然也就不可能持久保持； 
+		 localStorage：始终有效，窗口或浏览器关闭也一直保存，因此用作持久数据；
+		 cookie只在设置的cookie过期时间之前一直有效，即使窗口或浏览器关闭。 
+```
+
+## 8、C3新增了那些特性
+
+```
+答:
+1. 圆角 border-radius
+2. 盒子模型 box-sizing
+3. 阴影 box-shadow 盒子阴影  text-shadow 文字阴影
+4. 过渡 transition
+5. 2D转换transform  translate(平移) scale(缩放)  skew(斜切) rotate(旋转) transform-origin 控制转换中心点
+6. 3D转换 perspective(透视距)  transform-style(3D控件效果)
+7. 渐变 linear-gradient radial-gradient
+8. 弹性布局 flex
+9. 媒体查询 @media screen and () {...}
+10. 边框图片 border-image
+11. 自定义动画 @keyframes    animation
+12. 颜色 新增RGBA HSLA模式
+13. 背景 background-size   background-origin   background-clip
+```
+
+## 9、值类型和引用类型的区别
+
+```js
+1、值类型
+	1）基本类型数据是值类型
+    2）保存与复制的是值本身
+    3）使用typeof检测数据的类型
+2、引用类型
+	1）保存与复制的是指向对象的一个指针
+    2）使用instanceof检测数据类型
+    3）使用 new() 方法构造出的对象是引用型
+```
+
+## 10、什么是深拷贝什么是浅拷贝
+
+```
+答: 浅拷贝: 拷贝对象的一层属性,如果对象里面还有对象,拷贝的是地址, 两者之间修改会有影响,适用于对象里面属性的值是简单数据类型的.
+    深拷贝: 拷贝对象的多层属性,如果对象里面还有对象,会继续拷贝,使用递归去实现.
+```
+
+## 11、如何实现深拷贝和浅拷贝
+
+```js
+答:
+浅拷贝:
+    var obj = {
+      class: 'UI',
+      age: 20,
+      love: 'eat'
+    }
+    function getObj(obj) {
+      var newObj = {}
+      for (var k in obj) {
+        newObj[k] = obj[k]
+      }
+      return newObj
+    }
+    var obj2 = getObj(obj)
+    console.log(obj2)
+
+深拷贝: 
+		var obj = {
+      class: '前端',
+      age: 26,
+      love: {
+      friuts : 'apple',
+      meat: 'beef'
+      }
+    }
+		function getObj(obj) {
+      var newObj = {}
+      for (var k in obj) {
+        /* if (typeof obj[k] == 'object') {
+          newObj[k] = getObj(obj[k])
+        } else {
+          newObj[k] = obj[k]
+        } */
+        newObj[k] = typeof obj[k] == 'object' ? getObj(obj[k]) : obj[k]
+      }
+      return newObj
+    }
+    var obj2 = getObj(obj)
+    console.log(obj2)
+```
+
+## 12、对闭包的理解？并能举出闭包的例子
+
+```js
+答: 闭包 函数和声明该函数的词法环境的组合(两个嵌套关系的函数,内部函数可以访问外部函数定义的变量)
+    闭包的优点：1、形成私有空间，避免全局变量的污染
+               2、持久化内存，保存数据
+    闭包的缺点：1、持久化内存，导致内存泄露
+    解决：1、尽快避免函数的嵌套，以及变量的引用
+          2、执行完的变量，可以赋值null，让垃圾回收机制，进行回收释放内存（当不在引用的变量，垃圾回收机制就会回收）
+例: 点击li获取当前下标
+    <ul>
+      <li>111</li>
+      <li>222</li>
+      <li>333</li>
+      <li>444</li>
+      <li>555</li>
+    </ul>
+      var lis = document.querySelectorAll('li')
+      for (var i = 0; i < lis.length; i++) {
+        (function (j) {
+          lis[j].onclick = function () {
+            console.log(j)
+          }
+        })(i)
+      }
+```
+
+## 13、什么是原型和原型链
+
+```
+答: 原型: 函数都有prototype属性,这个属性的值是个对象,称之为原型
+   原型链: 对象都有__proto__属性,这个属性指向它的原型对象,原型对象也是对象,也有__proto__属性,指向原型对象的原型对象,这样一层一层形成的链式结构称为原型链.
+```
+
+## 14、call、apply和bind的区别
+
+```js
+答: 1. call和apply方法都可以调用函数,方法内的第一个参数可以修改this的指向
+	2. call方法可以有多个参数,除了第一个参数,其他参数作为实参传递给函数
+			 apply方法最多有2个参数,第二个参数是个数组或伪数组,数组里面的每一项作为实参传递给函数
+	3. bind方法不能调用函数,它会创建一个副本函数,并且绑定新函数的this指向bind返回的新的函数
+```
+
+## 15、es6-es10新增常用方法
+
+```js
+答: 
+es6:
+1、let、const
+2、解构赋值   let { a, b } = { a: 1, b: 2 }
+3、箭头函数   ()=>{}
+4、字符串模板  ``
+5、扩展运算符  ...arr
+6、数组方法：map、filter、some等等
+7、类：class关键字
+8、promise 主要用于异步计算
+9、函数参数默认值 fn(a = 1) {}
+10、对象属性简写 let a = 1; let obj = {a}
+11、模块化：import--引入、exprot default--导出
+
+es7:
+1、includes()方法，用来判断一个数组是否包含一个指定的值，根据情况，如果包含则返回true，否则返回false。
+
+es8:
+1、async/await
+
+es9：
+1、Promise.finally() 允许你指定最终的逻辑
+
+es10:
+1、数组Array的flat()和flatmap()
+   flat:方法最基本的作用就是数组降维
+      var arr1 = [1, 2, [3, 4]];
+            arr1.flat(); 
+            // [1, 2, 3, 4]
+
+        var arr3 = [1, 2, [3, 4, [5, 6]]];
+        arr3.flat(2);
+        // [1, 2, 3, 4, 5, 6]
+
+        //使用 Infinity 作为深度，展开任意深度的嵌套数组
+        arr3.flat(Infinity); 
+        // [1, 2, 3, 4, 5, 6]
+   flatmap:方法首先使用映射函数映射(遍历)每个元素，然后将结果压缩成一个新数组
+```
+
+##16、let、const和var的区别
+
+```js
+1、var声明变量存在提升（提升当前作用域最顶端），let和const是不存在变量提升的情况
+2、var没有块级作用，let和const存在块级作用域
+3、var允许重复声明，let和const在同一作用域不允许重复声明
+4、var和let声明变量可以修改，const是常量不能改变
+```
+
+## 17、怎么理解函数的防抖和节流
+
+```js
+答:
+1、定义：
+防抖: 就是指触发事件后在n秒内函数只能执行一次，如果在n秒内又触发了事件，则会重新计算函数执行时间。
+     例如：设定1000毫秒执行，当你触发事件了，他会1000毫秒后执行，但是在还剩500毫秒的时候你又触发了事件，那就会重新开始1000毫秒之后再执行
+
+节流: 就是指连续触发事件但是在设定的一段时间内中只执行一次函数。
+     例如：设定1000毫秒执行，那你在1000毫秒触发在多次，也只在1000毫秒后执行一次
+     
+2、防抖和节流的实现：
+    <body>
+    <input type="text" class="ipt" />
+    <script>
+      var timerId = null
+      document.querySelector('.ipt').onkeyup = function () {
+        // 防抖
+        if (timerId !== null) {
+          clearTimeout(timerId)
+        }
+        timerId = setTimeout(() => {
+          console.log('我是防抖')
+        }, 1000)
+      }
+
+      document.querySelector('.ipt').onkeyup = function () {
+        // 节流
+        console.log(2)
+        if (timerId !== null) {
+          return
+        }
+
+        timerId = setTimeout(() => {
+          console.log('我是节流')
+          timerId = null
+        }, 1000)
+      }
+
+    </script>
+  </body>
+```
+
+##18、js的运行机制是什么
+
+```
+答：js是单线程执行的，页面加载时，会自上而下执行主线程上的同步任务，当主线程代码执行完毕时，才开始执行在任务队列中的异步任务。具体如下  
+    1.所有同步任务都在主线程上执行，形成一个执行栈。
+    2.主线程之外，还存在一个"任务队列(eventloop队列或者消息队列)"。只要异步任务有了运行结果，就在"任务队列"之中放置一个事件。
+    3.一旦"执行栈"中的所有同步任务执行完毕，系统就会读取"任务队列"，看看里面有哪些事件。哪些对应的异步任务，于是结束等待状态，进入执行栈，开始执行。
+    4.主线程不断重复上面的第三步。
+```
+
+## 19、异步函数有哪些
+
+```js
+JavaScript 中常见的异步函数有：定时器，事件和 ajax 等
+```
+
+## 20、怎么理解面向对象
+
+```js
+答：1、面向对象是一种软件开发的思想和面向过程是相对应的，就是把程序看作一个对象，将属性和方法封装其中，以提高代码的灵活性、复用性、可扩展性。
+  2、面向对象有三大特性：封装、继承、多态。
+       封装：把相关的信息（无论数据或方法）存储在对象中的能力
+       继承：由另一个类（或多个类）得来类的属性和方法的能力
+       多态：编写能以多种方法运行的函数或方法的能力
+   3、基本思想是使用对象，类，继承，封装等基本概念来进行程序设计
+     易维护
+     易扩展
+     开发工作的重用性、继承性高，降低重复工作量。
+     缩短了开发周期
+```
+
+##21、伪数组有哪些
+
+```js
+1、参数 arguments，
+2、DOM 对象列表（比如通过 document.getElementsByTags 得到的列表）、childNodes也是伪数组
+3、jQuery 对象（比如 $("div")）
+```
+
+## 22、真数组和伪数组的区别
+
+```js
+伪数组：
+1、拥有length属性
+2、不具有数组的方法
+3、伪数组是一个Object，真数组是Array
+4、伪数组的长度不可变，真数组的长度是可变的
+```
+
+##23、伪数组怎么转真数组
+
+```js
+1、let newArr = Array.protype.slice.call(伪数组)
+2、let newArr = Array.from(伪数组),ES6的新语法
+3、let newArr = [...伪数组]，使用扩展运算符,也是ES6的语法
+```
+
+## 24、数组如何进行降维（扁平化）
+
+```js
+1、利用Array.some方法判断数组中是否还存在数组，es6展开运算符连接数组
+       let arr = [1,2,[3,4]]
+        while (arr.some(item => Array.isArray(item))) {
+            arr = [].concat(...arr);
+        }
+2、使用数组的concat方法
+　   let arr = [1,2,[3,4]]
+     let result = []
+     result = Array.prototype.concat.apply([], arr)
+
+3、 使用数组的concat方法和扩展运算符
+    var arr = [1,2,[3,4]]
+    var result = []
+    result = [].concat(...arr)
+        
+4、es6中的flat函数也可以实现数组的扁平化
+    let arr = [1,2,['a','b',['中','文',[1,2,3,[11,21,31]]]],3];
+    let result = arr.flat( Infinity )
+    注意：flat方法的infinity属性，可以实现多层数组的降维
+```
+
+
+
+
+
+
+
+
+
+
+
+## 
+
+## 
+
+
+
+## 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
