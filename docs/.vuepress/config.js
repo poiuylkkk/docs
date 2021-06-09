@@ -1,4 +1,5 @@
 module.exports = {
+    base: "/docs/",
     title: 'cjh的博客',
     description: '前端小白成长笔记',
     themeConfig:{
